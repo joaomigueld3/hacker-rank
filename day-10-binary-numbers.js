@@ -1,4 +1,9 @@
-/* https://www.hackerrank.com/challenges/30-binary-numbers */
+/* https://www.hackerrank.com/challenges/30-binary-numbers 
+Receive in parameter integer base 10 number, convert to binary and print/return the longest sequence of 1's
+Ex 1: input: n = 5, binary=101, answer: 1
+Ex 2: input: n = 13, binary=1101, answer: 2
+Ex 3: input: n = 439, binary=110110111, answer: 3
+*/
 
 
 function main(n) {    
