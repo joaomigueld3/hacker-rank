@@ -21,33 +21,30 @@
 }
 
 var addTwoNumbers = function(l1, l2) {
-    let l1String = ''
-    let l2String = ''
+    let dummy = new ListNode()
+    let result = dummy;
+    let carry = 0, total = 0;
 
-    while(l1.length > 0) {
-        l1String  = l1String.concat(l1.pop())
+    while (l1 || l2 || carry) {
+        total = carry
+        
+        if(l1) {
+            total += l1.val
+            l1 = l1.next
+        }
+        if(l2) {
+            total += l2.val
+            l2 = l2.next
+        }
+
+        
+        let num = total % 10
+        carry = Math.floor(total / 10)
+        dummy.next = new ListNode(num)
+        dummy = dummy.next
     }
-    while(l2.length > 0) {
-        l2String = l2String.concat(l2.pop())
-    }
-
-    const sum = BigInt(l1String) + BigInt(l2String)
-    const sumString = sum.toString()
-    let resList = new ListNode()
-
-    /* for (let i = sumString.length - 1; i >= 0; i--){
-        resArray.push(parseInt(sumString.charAt(i)))
-    } */
-    for (let i = sumString.length - 1; i >= 0; i--){
-        let num = (parseInt(sumString.charAt(i)))
-        resList.val = num;
-        resList.next = new ListNode(num)
-        resList = resList.next
-    }
-
     
-
-    return resList.next;
+    return result.next;
     
 };
 
