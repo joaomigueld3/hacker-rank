@@ -11,9 +11,28 @@ var firstUniqChar = function(s) {
     return -1;
 }
 
-console.log(firstUniqChar('leetcode'))
-console.log(firstUniqChar('loveleetcode'))
-console.log(firstUniqChar('aabb'))
+function firstUniqChar2(str) {
+    const mapFreq = new Map()
+    for (const item of str) {
+        const count = mapFreq.get(item) || 0;
+        mapFreq.set(item, count+1)
+    }
+    //console.log(mapFreq)
+
+    for (let i = 0; i < str.length; i++) {
+        if (mapFreq.get(str[i]) === 1) return i
+    }
+
+    return -1
+}
+
+const printFunction = (functionName) => {
+console.log(functionName('leetcode'))
+console.log(functionName('loveleetcode'))
+console.log(functionName('aabb'))
+}
+printFunction(firstUniqChar2)
+
 // s = "leetcode" -> 0(l)
 // s = "loveleetcode" -> 2(v)
 // s = "aabb" -> -1 (null)
