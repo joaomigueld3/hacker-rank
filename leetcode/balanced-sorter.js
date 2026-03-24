@@ -14,7 +14,7 @@ const listOfJudges = [
 function subtract (a,b) { return a-b; }
 function invert (a) { return 1/a; }
 
-function invertWeights(listOfJudges, mathMethod='subtract' || 'invert') {
+function customWeights(listOfJudges, mathMethod='subtract' || 'invert') {
     const totalProcesses = listOfJudges.reduce((accumulator, item) => accumulator + item.numOfProcesses, 0);
     let mathFormula = 0
     if (mathMethod==='subtract') {
@@ -34,15 +34,18 @@ function invertWeights(listOfJudges, mathMethod='subtract' || 'invert') {
             weight: mathFormula
         })
     }
-    return newListOfJudges;
-}
 
-console.log('inverted weights:', invertWeights(listOfJudges, 'subtract'))
-console.log('inverted weights:', invertWeights(listOfJudges, 'invert'))
+    const newListOfJudgesSorted = newListOfJudges.sort((a,b) => b.numOfProcesses - a.numOfProcesses)
+    return newListOfJudgesSorted;
+}
+/* const subtractedWeights = customWeights(listOfJudges, 'subtract')
+console.log('subtracted weights:', subtractedWeights ) */
+const invertedWeights = customWeights(listOfJudges, 'invert')
+console.log('inverted weights:', invertedWeights)
 
 function balancedDrawSTF(listOfJudges) {
     const totalProcesses = listOfJudges.reduce((accumulator, item) => accumulator + item.weight, 0);
-    //console.log('total:', totalProcesses)
+    // console.log('total:', totalProcesses)
     let random = Math.random() * totalProcesses;
     //console.log('random', random)
 
@@ -60,13 +63,15 @@ function balancedDrawSTF(listOfJudges) {
     return sortedJudge;
 }
 
+/* const drawJudge = balancedDrawSTF(invertedWeights)
+console.log(drawJudge) */
 
 
 
 function testDraw(list, loops = 100000) {
     const count = {}
     const totalWeight = list.reduce((accumulator, item) => accumulator + item.weight, 0);
-    console.log('Total Weight:', totalWeight);
+    // console.log('Total Weight:', totalWeight);
     //init counter
     for (const item of list) count[item.name] = 0;
 
@@ -91,7 +96,8 @@ function testDraw(list, loops = 100000) {
 
         return {
             Item: item.name,
-            "Original Weight": item.weight,
+            "Original Weight": item.numOfProcesses,
+            "Custom Weight": item.weight,
             "Frequency": freq,
             "Expected (%)": expectFreq.toFixed(2) + "%",
             "Obtained (%)": realFreq.toFixed(2) + "%",
@@ -104,7 +110,16 @@ function testDraw(list, loops = 100000) {
 
 
 
-/* const drawJudge = balancedDrawSTF(invertedWeights)
+const drawJudge = balancedDrawSTF(invertedWeights)
 console.log(drawJudge)
 testDraw(invertedWeights)
- */
+
+function probJudge (listOfJudges, judgeName) {
+    const totalProcesses = listOfJudges.reduce((accumulator, item) => accumulator + item.numOfProcesses, 0);
+    const judge = listOfJudges.find(item => item.name === judgeName)
+    const prob = judge ? (judge.numOfProcesses * 100) / totalProcesses : 0;
+    return prob;
+}
+
+const probabilityJudge = probJudge(invertedWeights, 'Gilmar')
+console.log('probability of Gilmar being drawn:', probabilityJudge.toFixed(3) + ' %')
